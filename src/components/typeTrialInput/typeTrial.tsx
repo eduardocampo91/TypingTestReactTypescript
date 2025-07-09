@@ -25,7 +25,9 @@ const TypeTrial = () => {
           )
         )}
       </h6>
-      <input name="text" value={enteredText} onChange={onWordChange} />
+      {!wordsPerMinute ? (
+        <input name="text" value={enteredText} onChange={onWordChange} />
+      ) : null}
     </div>
   );
 };
