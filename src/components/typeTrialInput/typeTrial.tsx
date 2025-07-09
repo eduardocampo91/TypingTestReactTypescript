@@ -2,7 +2,6 @@ import BasicButton from "../buttons/basicButton/basicButton";
 import useTypeTrial from "./hooks/useTypeTrial";
 
 const TypeTrial = () => {
-  const testedText = "This is the sentence to type";
   const {
     words,
     enteredText,
@@ -11,7 +10,7 @@ const TypeTrial = () => {
     onWordChange,
     isTestFinsh,
     resetTrial,
-  } = useTypeTrial(testedText);
+  } = useTypeTrial();
 
   return (
     <div className="App">

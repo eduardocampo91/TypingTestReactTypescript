@@ -1,4 +1,5 @@
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import calcWordsPerMinute from "../utils/calcWordsPerMinute";
 
 export interface TypedResults {
   words: string[];
@@ -10,7 +11,7 @@ export interface TypedResults {
   resetTrial: () => void;
 }
 
- const useTypeTrial = (text: string): TypedResults => {
+ const useTypeTrial = (): TypedResults => {
   const [typeTest] = useState("This is the sentence to type");
   const [words, setWords] = useState(typeTest.split(" "));
   const [enteredText, setEnteredText] = useState("");
@@ -18,9 +19,6 @@ export interface TypedResults {
   const [started, setStarted] = useState(false);
   const [startTime, setStartTime] = useState<Date | null>(new Date());
   const [wordsPerMinute, setWordsPerMinute] = useState(0);
-
-  const calcWordsPerMinute = (charsTyped: number, millis: number): number =>
-    Math.floor(charsTyped / 5 / (millis / 60000));
 
   const onWordChange = (e: ChangeEvent<HTMLInputElement>): void => {
     if (!started) {
@@ -54,7 +52,7 @@ export interface TypedResults {
   const isTestFinsh: boolean = wordsPerMinute > 0;
 
   const resetTrial = () => {
-    setWords(text.split(" "));
+    setWords(typeTest.split(" "));
     setEnteredText("");
     setCorrectCount(0);
     setWordsPerMinute(0);
