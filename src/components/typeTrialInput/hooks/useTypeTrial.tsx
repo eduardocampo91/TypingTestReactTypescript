@@ -8,7 +8,7 @@ export interface TypedResults {
   onWordChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
- const useTypeTest = (text: string): TypedResults => {
+ const useTypeTrial = (text: string): TypedResults => {
   const [typeTest] = useState("This is the sentence to type");
   const [words, setWords] = useState(typeTest.split(" "));
   const [enteredText, setEnteredText] = useState("");
@@ -58,4 +58,4 @@ export interface TypedResults {
   };
 }
 
-export default useTypeTest;
+export default useTypeTrial;

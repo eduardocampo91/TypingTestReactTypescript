@@ -1,11 +1,11 @@
 import React from "react";
 import "./App.css";
-import TypeTest from "./components/typeTestInput/typeTest";
+import TypeTrial from "./components/typeTrialInput/typeTrial";
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <TypeTest/>
+      <TypeTrial/>
     </div>
   );
 };

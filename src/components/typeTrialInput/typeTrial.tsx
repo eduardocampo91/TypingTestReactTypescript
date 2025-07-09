@@ -1,8 +1,8 @@
-import useTypeTest from "./hooks/useTypeTest";
+import useTypeTrial from "./hooks/useTypeTrial";
 
-const TypeTest = () => {
+const TypeTrial = () => {
   const testedText = "This is the sentence to type";
-  const { words, enteredText, wordsPerMinute, correctCount, onWordChange } = useTypeTest(testedText);
+  const { words, enteredText, wordsPerMinute, correctCount, onWordChange } = useTypeTrial(testedText);
 
   return (
     <div className="App">
@@ -30,4 +30,4 @@ const TypeTest = () => {
   );
 };
 
-export default TypeTest;
+export default TypeTrial;
