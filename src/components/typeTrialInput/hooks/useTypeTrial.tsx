@@ -27,7 +27,7 @@ export interface TypedResults {
     }
     const typedText = e.currentTarget.value.trim();
     setEnteredText(typedText);
-    if (enteredText === words[0]) {
+    if (typedText === words[0]) {
       setCorrectCount((correctCount) => correctCount + 1);
       setEnteredText("");
       setWords(words.slice(1));
