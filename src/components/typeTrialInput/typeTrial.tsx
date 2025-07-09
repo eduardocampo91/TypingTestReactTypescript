@@ -2,7 +2,7 @@ import useTypeTrial from "./hooks/useTypeTrial";
 
 const TypeTrial = () => {
   const testedText = "This is the sentence to type";
-  const { words, enteredText, wordsPerMinute, correctCount, onWordChange } = useTypeTrial(testedText);
+  const { words, enteredText, wordsPerMinute, correctCount, onWordChange, isTestFinsh } = useTypeTrial(testedText);
 
   return (
     <div className="App">
@@ -25,7 +25,7 @@ const TypeTrial = () => {
           )
         )}
       </h6>
-      {!wordsPerMinute ? (
+      {!isTestFinsh ? (
         <input name="text" value={enteredText} onChange={onWordChange} />
       ) : null}
     </div>

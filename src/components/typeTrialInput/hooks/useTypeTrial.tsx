@@ -6,6 +6,7 @@ export interface TypedResults {
   wordsPerMinute: number;
   correctCount: number;
   onWordChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  isTestFinsh: boolean;
 }
 
  const useTypeTrial = (text: string): TypedResults => {
@@ -49,12 +50,15 @@ export interface TypedResults {
     checkFinished();
   }, [words, checkFinished]);
 
+  const isTestFinsh: boolean = wordsPerMinute > 0;
+
   return {
     words,
     enteredText,
     wordsPerMinute,
     correctCount,
     onWordChange,
+    isTestFinsh,
   };
 }
 
