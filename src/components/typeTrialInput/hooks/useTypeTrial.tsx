@@ -7,6 +7,7 @@ export interface TypedResults {
   correctCount: number;
   onWordChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isTestFinsh: boolean;
+  resetTrial: () => void;
 }
 
  const useTypeTrial = (text: string): TypedResults => {
@@ -15,7 +16,7 @@ export interface TypedResults {
   const [enteredText, setEnteredText] = useState("");
   const [correctCount, setCorrectCount] = useState(0);
   const [started, setStarted] = useState(false);
-  const [startTime, setStartTime] = useState(new Date());
+  const [startTime, setStartTime] = useState<Date | null>(new Date());
   const [wordsPerMinute, setWordsPerMinute] = useState(0);
 
   const calcWordsPerMinute = (charsTyped: number, millis: number): number =>
@@ -52,6 +53,15 @@ export interface TypedResults {
 
   const isTestFinsh: boolean = wordsPerMinute > 0;
 
+  const resetTrial = () => {
+    setWords(text.split(" "));
+    setEnteredText("");
+    setCorrectCount(0);
+    setWordsPerMinute(0);
+    setStarted(false);
+    setStartTime(null);
+  };
+
   return {
     words,
     enteredText,
@@ -59,6 +69,7 @@ export interface TypedResults {
     correctCount,
     onWordChange,
     isTestFinsh,
+    resetTrial,
   };
 }
 

@@ -1,8 +1,17 @@
+import BasicButton from "../buttons/basicButton/basicButton";
 import useTypeTrial from "./hooks/useTypeTrial";
 
 const TypeTrial = () => {
   const testedText = "This is the sentence to type";
-  const { words, enteredText, wordsPerMinute, correctCount, onWordChange, isTestFinsh } = useTypeTrial(testedText);
+  const {
+    words,
+    enteredText,
+    wordsPerMinute,
+    correctCount,
+    onWordChange,
+    isTestFinsh,
+    resetTrial,
+  } = useTypeTrial(testedText);
 
   return (
     <div className="App">
@@ -27,6 +36,9 @@ const TypeTrial = () => {
       </h6>
       {!isTestFinsh ? (
         <input name="text" value={enteredText} onChange={onWordChange} />
+      ) : null}
+      {isTestFinsh ? (
+        <BasicButton onHandleCilck={resetTrial} label="Refresh!!"></BasicButton>
       ) : null}
     </div>
   );
