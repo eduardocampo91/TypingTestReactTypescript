@@ -35,6 +35,7 @@ describe("useTypeTrial tests", () => {
 
     expect(result.current.enteredText).toBe("");
     expect(result.current.correctCount).toBe(1);
+    expect(result.current.started).toBeTruthy();
     expect(result.current.words).toEqual(["is", "the", "sentence", "to", "type"]);
   });
 
@@ -80,6 +81,7 @@ describe("useTypeTrial tests", () => {
      expect(result.current.correctCount).toBe(6);
      expect(result.current.words).toEqual([]);
      expect(result.current.wordsPerMinute).toBeTruthy();
+     expect(result.current.started).toBeFalsy();
      expect(result.current.isTestFinsh).toBe(true);
    });
 });

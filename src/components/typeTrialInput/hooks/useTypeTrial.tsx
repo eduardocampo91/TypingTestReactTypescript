@@ -6,6 +6,7 @@ export interface TypedResults {
   enteredText: string;
   wordsPerMinute: number;
   correctCount: number;
+  started: boolean,
   onWordChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isTestFinsh: boolean;
   resetTrial: () => void;
@@ -40,6 +41,7 @@ export interface TypedResults {
         const timeMillis: number = new Date().getTime() - startTime.getTime();
         const wpm = calcWordsPerMinute(typeTest.length, timeMillis);
         setWordsPerMinute(wpm);
+        setStarted(false);
       }
     }
   }, [words.length, startTime, typeTest]);
@@ -65,6 +67,7 @@ export interface TypedResults {
     enteredText,
     wordsPerMinute,
     correctCount,
+    started,
     onWordChange,
     isTestFinsh,
     resetTrial,

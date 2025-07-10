@@ -7,10 +7,15 @@ const TypeTrial = () => {
     enteredText,
     wordsPerMinute,
     correctCount,
+    started,
     onWordChange,
     isTestFinsh,
     resetTrial,
   } = useTypeTrial();
+
+  const handleDisableButton = (): boolean => {
+    return !started;
+  }
 
   return (
     <div className="App">
@@ -36,6 +41,15 @@ const TypeTrial = () => {
       {!isTestFinsh ? (
         <input name="text" value={enteredText} onChange={onWordChange} />
       ) : null}
+
+      {!isTestFinsh ? (
+        <BasicButton
+          onHandleCilck={resetTrial}
+          label="Restart"
+          disabled={handleDisableButton()}
+        />
+      ) : null}
+
       {isTestFinsh ? (
         <BasicButton onHandleCilck={resetTrial} label="Refresh!!"></BasicButton>
       ) : null}
