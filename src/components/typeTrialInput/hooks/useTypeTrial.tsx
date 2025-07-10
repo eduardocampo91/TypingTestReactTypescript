@@ -6,13 +6,13 @@ export interface TypedResults {
   enteredText: string;
   wordsPerMinute: number;
   correctCount: number;
-  started: boolean,
+  started: boolean;
   onWordChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isTestFinsh: boolean;
   resetTrial: () => void;
 }
 
- const useTypeTrial = (): TypedResults => {
+const useTypeTrial = (): TypedResults => {
   const [typeTest] = useState("This is the sentence to type");
   const [words, setWords] = useState(typeTest.split(" "));
   const [enteredText, setEnteredText] = useState("");
@@ -29,9 +29,18 @@ export interface TypedResults {
     const typedText = e.currentTarget.value.trim();
     setEnteredText(typedText);
     if (typedText === words[0]) {
-      setCorrectCount((correctCount) => correctCount + 1);
+      const startTrial = new Date();
+      const timeMillis = startTime
+        ? startTrial.getTime() - startTime.getTime()
+        : 0;
+
+      const updatedCorrectCount = (correctCount: number) => correctCount + 1;
+      const wpm = calcWordsPerMinute(typeTest.length, timeMillis);
+
+      setCorrectCount(updatedCorrectCount);
       setEnteredText("");
       setWords(words.slice(1));
+      setWordsPerMinute(wpm);
     }
   };
 
@@ -51,7 +60,7 @@ export interface TypedResults {
     checkFinished();
   }, [words, checkFinished]);
 
-  const isTestFinsh: boolean = wordsPerMinute > 0;
+  const isTestFinsh: boolean = words.length === 0;
 
   const resetTrial = () => {
     setWords(typeTest.split(" "));
@@ -72,6 +81,6 @@ export interface TypedResults {
     isTestFinsh,
     resetTrial,
   };
-}
+};
 
 export default useTypeTrial;

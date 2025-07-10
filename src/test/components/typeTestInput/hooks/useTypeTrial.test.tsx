@@ -35,11 +35,12 @@ describe("useTypeTrial tests", () => {
 
     expect(result.current.enteredText).toBe("");
     expect(result.current.correctCount).toBe(1);
+    expect(result.current.wordsPerMinute).toBeGreaterThan(1);
     expect(result.current.started).toBeTruthy();
     expect(result.current.words).toEqual(["is", "the", "sentence", "to", "type"]);
   });
 
-   it("should not update correctCount and remove a word if is not the correct word", () => {
+   it("should not update correctCount and should not remove a word if is not the correct word", () => {
      const { result } = renderHook(() => useTypeTrial());
 
      const mockEvent = {
