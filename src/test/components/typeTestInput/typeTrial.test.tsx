@@ -37,13 +37,14 @@ describe("TypeTrial tests", () => {
         wordsPerMinute: 10,
         correctCount: 10,
         onWordChange: jest.fn(),
+        accuracy: 100,
       });
 
       component = render(<TypeTrial />);
 
       const headingText = "Test Your Typing Speed, Scrub!";
       const heading = screen.queryByText(headingText);
-      const secondHeadingText = "You typed 10 words at 10 WPM.";
+      const secondHeadingText = "You typed 10 words at 10 WPM. With a 100% of accuracy!!";
       const secondHeading = screen.queryByText(secondHeadingText);
 
       expect(heading).not.toBeInTheDocument();
@@ -214,12 +215,14 @@ describe("TypeTrial tests", () => {
           isTestFinsh: true,
           onWordChange: onWordChangeMock,
           resetTrial: mockResetTrial,
+          accuracy: 80
         });
       });
-      it("should show results in screen after entering the complete and correct sentence", () => {
+
+      it("should show results and accuracy in screen after entering the complete and correct sentence", () => {
         component = render(<TypeTrial />);
 
-        const finalScore = "You typed 6 words at 60 WPM.";
+        const finalScore = "You typed 6 words at 60 WPM. With a 80% of accuracy!!";
         const scoreHeading = screen.queryByText(finalScore);
         expect(scoreHeading).toBeInTheDocument();
       });

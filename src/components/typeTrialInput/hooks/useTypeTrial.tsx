@@ -1,5 +1,6 @@
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import calcWordsPerMinute from "../utils/calcWordsPerMinute";
+import calcTypingAccuracy from "../utils/calculateTypingAccuracy";
 
 export interface TypedResults {
   words: string[];
@@ -10,6 +11,7 @@ export interface TypedResults {
   onWordChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isTestFinsh: boolean;
   resetTrial: () => void;
+  accuracy: number;
 }
 
 const useTypeTrial = (): TypedResults => {
@@ -20,12 +22,17 @@ const useTypeTrial = (): TypedResults => {
   const [started, setStarted] = useState(false);
   const [startTime, setStartTime] = useState<Date | null>(new Date());
   const [wordsPerMinute, setWordsPerMinute] = useState(0);
+  const [totalCharacters, setTotalCharacters] = useState(0);
+  const [charCorrectCount, setCharCorrectCount] = useState(0);
 
   const onWordChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    const typedTextCurr = e.currentTarget.value;
     if (!started) {
       setStarted(true);
       setStartTime(new Date());
     }
+    handleAccuracy(typedTextCurr);
+
     const typedText = e.currentTarget.value.trim();
     setEnteredText(typedText);
     if (typedText === words[0]) {
@@ -42,6 +49,18 @@ const useTypeTrial = (): TypedResults => {
       setWords(words.slice(1));
       setWordsPerMinute(wpm);
     }
+  };
+
+  const handleAccuracy = (typedText: string) => {
+      const typedLength  = typedText.length;
+      setTotalCharacters((char) => char + 1);
+
+      const expectedChar = words[0]?.[typedLength - 1];
+      const actualChar = typedText[typedLength - 1];
+
+      if (expectedChar && actualChar === expectedChar) {
+        setCharCorrectCount((char) => char + 1);
+      }
   };
 
   const checkFinished = useCallback(() => {
@@ -80,6 +99,7 @@ const useTypeTrial = (): TypedResults => {
     onWordChange,
     isTestFinsh,
     resetTrial,
+    accuracy: calcTypingAccuracy(charCorrectCount, totalCharacters),
   };
 };
 

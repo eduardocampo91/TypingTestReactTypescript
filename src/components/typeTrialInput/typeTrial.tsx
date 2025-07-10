@@ -12,6 +12,7 @@ const TypeTrial = () => {
     onWordChange,
     isTestFinsh,
     resetTrial,
+    accuracy,
   } = useTypeTrial();
 
   const handleDisableButton = (): boolean => {
@@ -31,7 +32,7 @@ const TypeTrial = () => {
     <div className="App">
       <h1>
         {wordsPerMinute
-          ? `You typed ${correctCount} words at ${wordsPerMinute} WPM.`
+          ? `You typed ${correctCount} words at ${wordsPerMinute} WPM. With a ${accuracy}% of accuracy!!`
           : "Test Your Typing Speed, Scrub!"}
       </h1>
       <h3>
