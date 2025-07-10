@@ -1,6 +1,7 @@
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import calcWordsPerMinute from "../utils/calcWordsPerMinute";
 import calcTypingAccuracy from "../utils/calculateTypingAccuracy";
+import calculateScore from "../utils/calculateScore";
 
 export interface TypedResults {
   words: string[];
@@ -12,6 +13,7 @@ export interface TypedResults {
   isTestFinsh: boolean;
   resetTrial: () => void;
   accuracy: number;
+  score: number;
 }
 
 const useTypeTrial = (): TypedResults => {
@@ -24,6 +26,11 @@ const useTypeTrial = (): TypedResults => {
   const [wordsPerMinute, setWordsPerMinute] = useState(0);
   const [totalCharacters, setTotalCharacters] = useState(0);
   const [charCorrectCount, setCharCorrectCount] = useState(0);
+  const [firstStrikeTotal, setFirstStrikeTotal] = useState(0);
+  const [firstStrikeCorrect, setFirstStrikeCorrect] = useState(0);
+  const [finalScore, setFinalScore] = useState(0);
+
+  const prevTypedLength = useRef(0);
 
   const onWordChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const typedTextCurr = e.currentTarget.value;
@@ -52,15 +59,23 @@ const useTypeTrial = (): TypedResults => {
   };
 
   const handleAccuracy = (typedText: string) => {
-      const typedLength  = typedText.length;
-      setTotalCharacters((char) => char + 1);
+    const typedLength  = typedText.length;
+    setTotalCharacters((char) => char + 1);
 
-      const expectedChar = words[0]?.[typedLength - 1];
-      const actualChar = typedText[typedLength - 1];
+    const expectedChar = words[0]?.[typedLength - 1];
+    const actualChar = typedText[typedLength - 1];
 
+    if (expectedChar && actualChar === expectedChar) {
+      setCharCorrectCount((char) => char + 1);
+    }
+    if (typedLength > prevTypedLength.current) {
+      setFirstStrikeTotal((count) => count + 1);
       if (expectedChar && actualChar === expectedChar) {
-        setCharCorrectCount((char) => char + 1);
+        setFirstStrikeCorrect((count) => count + 1);
       }
+    }
+
+    prevTypedLength.current = typedLength;
   };
 
   const checkFinished = useCallback(() => {
@@ -68,11 +83,37 @@ const useTypeTrial = (): TypedResults => {
       if (startTime) {
         const timeMillis: number = new Date().getTime() - startTime.getTime();
         const wpm = calcWordsPerMinute(typeTest.length, timeMillis);
+
+        const accuracy = calcTypingAccuracy(charCorrectCount, totalCharacters);
+        const firstStrikeAccuracy = calcTypingAccuracy(
+          firstStrikeCorrect,
+          firstStrikeTotal
+        );
+
+        const wordCount = correctCount;
+
+        const calculated = calculateScore(
+          wordCount,
+          wpm,
+          accuracy / 100,
+          firstStrikeAccuracy / 100
+        );
+        
+        setFinalScore(calculated);
         setWordsPerMinute(wpm);
         setStarted(false);
       }
     }
-  }, [words.length, startTime, typeTest]);
+  }, [
+    words.length,
+    startTime,
+    typeTest,
+    correctCount,
+    charCorrectCount,
+    totalCharacters,
+    firstStrikeCorrect,
+    firstStrikeTotal,
+  ]);
 
   useEffect(() => {
     if (words.length !== 0) return;
@@ -88,6 +129,7 @@ const useTypeTrial = (): TypedResults => {
     setWordsPerMinute(0);
     setStarted(false);
     setStartTime(null);
+    setFinalScore(0);
   };
 
   return {
@@ -100,6 +142,7 @@ const useTypeTrial = (): TypedResults => {
     isTestFinsh,
     resetTrial,
     accuracy: calcTypingAccuracy(charCorrectCount, totalCharacters),
+    score: finalScore,
   };
 };
 

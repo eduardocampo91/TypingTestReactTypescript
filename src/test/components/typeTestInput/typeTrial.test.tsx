@@ -215,15 +215,16 @@ describe("TypeTrial tests", () => {
           isTestFinsh: true,
           onWordChange: onWordChangeMock,
           resetTrial: mockResetTrial,
-          accuracy: 80
+          accuracy: 80,
+          score: 10,
         });
       });
 
       it("should show results and accuracy in screen after entering the complete and correct sentence", () => {
         component = render(<TypeTrial />);
 
-        const finalScore = "You typed 6 words at 60 WPM. With a 80% of accuracy!!";
-        const scoreHeading = screen.queryByText(finalScore);
+        const finalResults = "You typed 6 words at 60 WPM. With a 80% of accuracy!!";
+        const scoreHeading = screen.queryByText(finalResults);
         expect(scoreHeading).toBeInTheDocument();
       });
 
@@ -279,6 +280,13 @@ describe("TypeTrial tests", () => {
         component.rerender(<TypeTrial />);
 
         expect(mockResetTrial).toHaveBeenCalled();
+      });
+
+      it("should show the final score when test finished", () => {
+        component = render(<TypeTrial />);
+        const finalScore = "Your final score is 10!!!!";
+        const scoreHeading = screen.queryByText(finalScore);
+        expect(scoreHeading).toBeInTheDocument();
       });
     });
   });

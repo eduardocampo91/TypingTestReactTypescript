@@ -130,4 +130,36 @@ describe("useTypeTrial tests", () => {
     expect(result.current.started).toBeFalsy();
     expect(result.current.isTestFinsh).toBe(true);
   });
+
+  it("should call calculateScore and set the final score when test finishes", () => {
+    jest.mock(
+      "../../../../components/typeTrialInput/utils/calcWordsPerMinute",
+      () => jest.fn(() => 60)
+    );
+    jest.mock(
+      "../../../../components/typeTrialInput/utils/calculateTypingAccuracy",
+      () => jest.fn((correct, total) => (total ? (correct / total) * 100 : 100))
+    );
+     jest.mock(
+       "../../../../components/typeTrialInput/utils/calculateScore",
+       () => jest.fn(() => 100)
+     );
+
+    const { result } = renderHook(() => useTypeTrial());
+
+    const words = ["This", "is", "the", "sentence", "to", "type"];
+
+    for (let word of words) {
+      const event = {
+        currentTarget: { value: word },
+      } as React.ChangeEvent<HTMLInputElement>;
+
+      act(() => {
+        result.current.onWordChange(event);
+      });
+    }
+
+    expect(result.current.words).toHaveLength(0);
+    expect(result.current.score).toBeTruthy();
+  });
 });

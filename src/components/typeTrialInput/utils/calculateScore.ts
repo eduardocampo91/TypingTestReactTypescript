@@ -6,7 +6,7 @@ const calculateScore = (
 ) => {
   let calculatedScore = 0;
   calculatedScore = words * (wpm / 60) * accuracy * firstStrikeAccuracy * 10;
-  return calculatedScore;
+  return Math.round(calculatedScore);
 };
 
 export default calculateScore;
