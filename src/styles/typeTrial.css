@@ -9,3 +9,15 @@
     color: #F25151;
     background-color: #3B1A1A;
 }
+
+.char-underline {
+  font-size: 18px;
+  margin: 8px;
+}
+
+.underline-next {
+  text-decoration: underline;
+  text-decoration-color: #10ADE2;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 4px;
+}

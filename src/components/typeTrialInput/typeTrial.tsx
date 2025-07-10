@@ -48,6 +48,18 @@ const TypeTrial = () => {
           )
         )}
       </h6>
+      {started ? (
+        <div className="char-underline guide-word">
+          {currentWord.split("").map((char, idx) => {
+            const isNext = idx === enteredText.trim().length;
+            return (
+              <span key={idx} className={isNext &&  isCorrectText ? "underline-next" : ""}>
+                {char}
+              </span>
+            );
+          })}
+        </div>
+      ) : null}
       {!isTestFinsh ? (
         <input
           name="text"

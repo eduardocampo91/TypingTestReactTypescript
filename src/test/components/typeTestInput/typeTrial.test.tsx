@@ -74,6 +74,22 @@ describe("TypeTrial tests", () => {
       expect(restartButton).toBeInTheDocument();
       expect(restartButton).toBeDisabled();
     });
+
+    it("should render a text guide word with an underline on the next character to type", () => {
+      (useTypeTrial as jest.Mock).mockReturnValue({
+        words: ["This", "is", "the", "sentence", "to", "type"],
+        enteredText: "Thi",
+        wordsPerMinute: 0,
+        correctCount: 0,
+        started: true,
+        onWordChange: jest.fn(),
+      });
+
+      component = render(<TypeTrial />);
+
+      const nextChar = screen.getByText("s");
+      expect(nextChar).toHaveClass("underline-next");
+    });
   });
 
   describe("TypeTrial functionality", () => {
@@ -168,6 +184,22 @@ describe("TypeTrial tests", () => {
       component.rerender(<TypeTrial />);
 
       expect(mockResetTrial).toHaveBeenCalled();
+    });
+
+    it("should not show an underline in the text guide word next character when the user input is incorrect", () => {
+      (useTypeTrial as jest.Mock).mockReturnValue({
+        words: ["This", "is", "the", "sentence", "to", "type"],
+        enteredText: "Tha",
+        wordsPerMinute: 0,
+        correctCount: 0,
+        started: true,
+        onWordChange: jest.fn(),
+      });
+
+      component = render(<TypeTrial />);
+
+      const nextChar = screen.getByText("s");
+      expect(nextChar).not.toHaveClass("underline-next");
     });
 
     describe("TypeTrial: finished trial", () => {
