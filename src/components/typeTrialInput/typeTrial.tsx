@@ -1,5 +1,6 @@
 import BasicButton from "../buttons/basicButton/basicButton";
 import useTypeTrial from "./hooks/useTypeTrial";
+import "../../styles/typeTrial.css";
 
 const TypeTrial = () => {
   const {
@@ -15,7 +16,16 @@ const TypeTrial = () => {
 
   const handleDisableButton = (): boolean => {
     return !started;
-  }
+  };
+
+  const currentWord = words[0] || "";
+  const isCorrectText: boolean = currentWord.startsWith(enteredText.trim());
+  const handleCorrectText =
+    enteredText.length === 0
+      ? ""
+      : isCorrectText
+      ? "text-correct"
+      : "text-incorrect";
 
   return (
     <div className="App">
@@ -39,7 +49,12 @@ const TypeTrial = () => {
         )}
       </h6>
       {!isTestFinsh ? (
-        <input name="text" value={enteredText} onChange={onWordChange} />
+        <input
+          name="text"
+          value={enteredText}
+          onChange={onWordChange}
+          className={handleCorrectText}
+        />
       ) : null}
 
       {!isTestFinsh ? (

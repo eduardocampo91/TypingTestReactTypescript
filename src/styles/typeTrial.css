@@ -1,0 +1,11 @@
+.text-correct {
+    border: 3px solid rgb(0, 0, 0);
+    color: #93C43F;
+    background-color: #2D3B20;
+}
+
+.text-incorrect {
+    border: 3px solid rgb(0, 0, 0);
+    color: #F25151;
+    background-color: #3B1A1A;
+}
