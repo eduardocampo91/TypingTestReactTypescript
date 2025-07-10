@@ -37,7 +37,7 @@ describe("TypeTrial tests", () => {
         wordsPerMinute: 10,
         correctCount: 10,
         onWordChange: jest.fn(),
-        accuracy: 100,
+        trialAccuracy: 100,
       });
 
       component = render(<TypeTrial />);
@@ -215,8 +215,8 @@ describe("TypeTrial tests", () => {
           isTestFinsh: true,
           onWordChange: onWordChangeMock,
           resetTrial: mockResetTrial,
-          accuracy: 80,
-          score: 10,
+          trialAccuracy: 80,
+          finalScore: 10,
         });
       });
 

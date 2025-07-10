@@ -12,8 +12,8 @@ export interface TypedResults {
   onWordChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isTestFinsh: boolean;
   resetTrial: () => void;
-  accuracy: number;
-  score: number;
+  trialAccuracy: number;
+  finalScore: number;
 }
 
 const useTypeTrial = (): TypedResults => {
@@ -29,6 +29,7 @@ const useTypeTrial = (): TypedResults => {
   const [firstStrikeTotal, setFirstStrikeTotal] = useState(0);
   const [firstStrikeCorrect, setFirstStrikeCorrect] = useState(0);
   const [finalScore, setFinalScore] = useState(0);
+  const [trialAccuracy, settrialAccuracy] = useState(0);
 
   const prevTypedLength = useRef(0);
 
@@ -59,7 +60,7 @@ const useTypeTrial = (): TypedResults => {
   };
 
   const handleAccuracy = (typedText: string) => {
-    const typedLength  = typedText.length;
+    const typedLength = typedText.length;
     setTotalCharacters((char) => char + 1);
 
     const expectedChar = words[0]?.[typedLength - 1];
@@ -98,7 +99,8 @@ const useTypeTrial = (): TypedResults => {
           accuracy / 100,
           firstStrikeAccuracy / 100
         );
-        
+
+        settrialAccuracy(accuracy);
         setFinalScore(calculated);
         setWordsPerMinute(wpm);
         setStarted(false);
@@ -120,6 +122,11 @@ const useTypeTrial = (): TypedResults => {
     checkFinished();
   }, [words, checkFinished]);
 
+  useEffect(() => {
+    const newAccuracy = calcTypingAccuracy(charCorrectCount, totalCharacters);
+    settrialAccuracy(newAccuracy);
+  }, [charCorrectCount, totalCharacters]);
+
   const isTestFinsh: boolean = words.length === 0;
 
   const resetTrial = () => {
@@ -130,6 +137,12 @@ const useTypeTrial = (): TypedResults => {
     setStarted(false);
     setStartTime(null);
     setFinalScore(0);
+    settrialAccuracy(0);
+    setTotalCharacters(0);
+    setCharCorrectCount(0);
+    setFirstStrikeTotal(0);
+    setFirstStrikeCorrect(0);
+    prevTypedLength.current = 0;
   };
 
   return {
@@ -141,8 +154,8 @@ const useTypeTrial = (): TypedResults => {
     onWordChange,
     isTestFinsh,
     resetTrial,
-    accuracy: calcTypingAccuracy(charCorrectCount, totalCharacters),
-    score: finalScore,
+    trialAccuracy,
+    finalScore,
   };
 };
 

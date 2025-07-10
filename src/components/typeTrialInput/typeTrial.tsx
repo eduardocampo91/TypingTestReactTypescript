@@ -12,8 +12,8 @@ const TypeTrial = () => {
     onWordChange,
     isTestFinsh,
     resetTrial,
-    accuracy,
-    score,
+    trialAccuracy,
+    finalScore,
   } = useTypeTrial();
 
   const handleDisableButton = (): boolean => {
@@ -33,10 +33,10 @@ const TypeTrial = () => {
     <div className="App">
       <h1>
         {wordsPerMinute
-          ? `You typed ${correctCount} words at ${wordsPerMinute} WPM. With a ${accuracy}% of accuracy!!`
+          ? `You typed ${correctCount} words at ${wordsPerMinute} WPM. With a ${trialAccuracy}% of accuracy!!`
           : "Test Your Typing Speed, Scrub!"}
       </h1>
-      {score ? (<h2>{`Your final score is ${score}!!!!`}</h2>) : null}
+      {finalScore ? (<h2>{`Your final score is ${finalScore}!!!!`}</h2>) : null}
       <h3>
         {isTestFinsh ? `Refresh to retake the test!` : `Type the following:`}
       </h3>

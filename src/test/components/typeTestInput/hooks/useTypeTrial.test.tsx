@@ -43,7 +43,7 @@ describe("useTypeTrial tests", () => {
       "to",
       "type",
     ]);
-    expect(result.current.accuracy).toBe(100);
+    expect(result.current.trialAccuracy).toBe(100);
   });
 
   it("should update the accuracy when a wrong character is typed", () => {
@@ -65,7 +65,7 @@ describe("useTypeTrial tests", () => {
     expect(result.current.correctCount).toBe(5);
     expect(result.current.words).toEqual(["type"]);
     expect(result.current.wordsPerMinute).toBeTruthy();
-    expect(result.current.accuracy).toBe(83);
+    expect(result.current.trialAccuracy).toBe(83);
   });
 
   it("should update acurracy with every character typed", () => {
@@ -81,7 +81,7 @@ describe("useTypeTrial tests", () => {
       act(() => {
         result.current.onWordChange(event);
       });
-      expect(result.current.accuracy).toBe(100);
+      expect(result.current.trialAccuracy).toBe(100);
     }
   });
 
@@ -160,6 +160,6 @@ describe("useTypeTrial tests", () => {
     }
 
     expect(result.current.words).toHaveLength(0);
-    expect(result.current.score).toBeTruthy();
+    expect(result.current.finalScore).toBeTruthy();
   });
 });
