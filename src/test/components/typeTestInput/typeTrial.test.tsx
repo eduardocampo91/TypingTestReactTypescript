@@ -56,6 +56,24 @@ describe("TypeTrial tests", () => {
       const input = screen.getByRole("textbox");
       expect(input).toBeInTheDocument();
     });
+
+    it("should render the Restart button as disabled when no input has been typed", () => {
+      (useTypeTrial as jest.Mock).mockReturnValue({
+        words: ["This", "is", "the", "sentence", "to", "type"],
+        enteredText: "",
+        wordsPerMinute: 0,
+        correctCount: 0,
+        onWordChange: jest.fn(),
+      });
+
+      component = render(<TypeTrial />);
+
+      const restartButton = screen.getByRole("button", {
+        name: /restart/i,
+      });
+      expect(restartButton).toBeInTheDocument();
+      expect(restartButton).toBeDisabled();
+    });
   });
 
   describe("TypeTrial functionality", () => {
@@ -109,8 +127,53 @@ describe("TypeTrial tests", () => {
       expect(currentWord.tagName).toBe("EM");
     });
 
+    it("should enable the Restart button when user starts typing", () => {
+      (useTypeTrial as jest.Mock).mockReturnValue({
+        words: ["is", "the", "sentence", "to", "type"],
+        enteredText: "",
+        wordsPerMinute: 0,
+        correctCount: 1,
+        started: true,
+      });
+
+      component = render(<TypeTrial />);
+
+      const restartButton = screen.getByRole("button", {
+        name: /restart/i,
+      });
+      expect(restartButton).toBeInTheDocument();
+      expect(restartButton).not.toBeDisabled();
+    });
+
+    it("should call resetTrial when the Restart button is clicked", () => {
+      const mockResetTrial = jest.fn();
+
+      (useTypeTrial as jest.Mock).mockReturnValue({
+        words: ["is", "the", "sentence", "to", "type"],
+        enteredText: "",
+        wordsPerMinute: 0,
+        correctCount: 1,
+        started: true,
+        resetTrial: mockResetTrial,
+      });
+
+      component = render(<TypeTrial />);
+
+      const restartButton = screen.getByRole("button", {
+        name: /restart/i,
+      });
+
+      fireEvent.click(restartButton);
+
+      component.rerender(<TypeTrial />);
+
+      expect(mockResetTrial).toHaveBeenCalled();
+    });
+
     describe("TypeTrial: finished trial", () => {
-      beforeEach(()=>{
+      const mockResetTrial = jest.fn();
+
+      beforeEach(() => {
         (useTypeTrial as jest.Mock).mockReturnValue({
           words: [],
           enteredText: "",
@@ -118,7 +181,7 @@ describe("TypeTrial tests", () => {
           correctCount: 6,
           isTestFinsh: true,
           onWordChange: onWordChangeMock,
-          resetTrial: jest.fn(),
+          resetTrial: mockResetTrial,
         });
       });
       it("should show results in screen after entering the complete and correct sentence", () => {
@@ -131,7 +194,7 @@ describe("TypeTrial tests", () => {
 
       it("should hide the input and when the trial is finish", () => {
         component = render(<TypeTrial />);
-        
+
         const input = screen.queryByRole("textbox");
         expect(input).toBeNull();
       });
@@ -164,9 +227,23 @@ describe("TypeTrial tests", () => {
         });
 
         component.rerender(<TypeTrial />);
-        
+
         const input = screen.queryByRole("textbox");
         expect(input).toBeInTheDocument();
+      });
+
+      it("should call resetTrial when the Refresh!! button is clicked", () => {
+        component = render(<TypeTrial />);
+
+        const refreshButton = screen.getByRole("button", {
+          name: /refresh/i,
+        });
+
+        fireEvent.click(refreshButton);
+
+        component.rerender(<TypeTrial />);
+
+        expect(mockResetTrial).toHaveBeenCalled();
       });
     });
   });
