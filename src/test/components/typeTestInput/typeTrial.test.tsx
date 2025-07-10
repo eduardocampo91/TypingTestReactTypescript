@@ -61,7 +61,7 @@ describe("TypeTrial tests", () => {
   describe("TypeTrial functionality", () => {
     const onWordChangeMock = jest.fn();
 
-    it("starts typing and progresses with onWordChange when a word is entered", () => {
+    it("should start typing and progress with onWordChange when a word is entered", () => {
       (useTypeTrial as jest.Mock).mockReturnValue({
         words: ["This", "is", "the", "sentence", "to", "type"],
         enteredText: "",
@@ -79,7 +79,7 @@ describe("TypeTrial tests", () => {
       expect(onWordChangeMock).toHaveBeenCalledWith(expect.any(Object));
     });
 
-    it("progresses a correct word entered", () => {
+    it("should progress with the trial when a correct word is entered", () => {
       (useTypeTrial as jest.Mock).mockReturnValue({
         words: ["This", "is", "the", "sentence", "to", "type"],
         enteredText: "",
@@ -109,20 +109,65 @@ describe("TypeTrial tests", () => {
       expect(currentWord.tagName).toBe("EM");
     });
 
-    it("shows results in screen after entering the complete and correct sentence", () => {
-      (useTypeTrial as jest.Mock).mockReturnValue({
-        words: [],
-        enteredText: "",
-        wordsPerMinute: 60,
-        correctCount: 6,
-        onWordChange: onWordChangeMock,
+    describe("TypeTrial: finished trial", () => {
+      beforeEach(()=>{
+        (useTypeTrial as jest.Mock).mockReturnValue({
+          words: [],
+          enteredText: "",
+          wordsPerMinute: 60,
+          correctCount: 6,
+          isTestFinsh: true,
+          onWordChange: onWordChangeMock,
+          resetTrial: jest.fn(),
+        });
+      });
+      it("should show results in screen after entering the complete and correct sentence", () => {
+        component = render(<TypeTrial />);
+
+        const finalScore = "You typed 6 words at 60 WPM.";
+        const scoreHeading = screen.queryByText(finalScore);
+        expect(scoreHeading).toBeInTheDocument();
       });
 
-      component = render(<TypeTrial />);
+      it("should hide the input and when the trial is finish", () => {
+        component = render(<TypeTrial />);
+        
+        const input = screen.queryByRole("textbox");
+        expect(input).toBeNull();
+      });
 
-      const finalScore = "You typed 6 words at 60 WPM.";
-      const scoreHeading = screen.queryByText(finalScore);
-      expect(scoreHeading).toBeInTheDocument();
+      it("should show the Refresh!! button when the trial is finish", () => {
+        component = render(<TypeTrial />);
+
+        const refreshButton = screen.getByRole("button", {
+          name: /refresh/i,
+        });
+        expect(refreshButton).toBeInTheDocument();
+      });
+
+      it("should show the input again after clicking the Refresh!! button", () => {
+        component = render(<TypeTrial />);
+
+        const refreshButton = screen.getByRole("button", {
+          name: /refresh/i,
+        });
+        fireEvent.click(refreshButton);
+
+        (useTypeTrial as jest.Mock).mockReturnValue({
+          words: ["This"],
+          enteredText: "",
+          wordsPerMinute: 0,
+          correctCount: 0,
+          isTestFinsh: false,
+          onWordChange: jest.fn(),
+          resetTrial: jest.fn(),
+        });
+
+        component.rerender(<TypeTrial />);
+        
+        const input = screen.queryByRole("textbox");
+        expect(input).toBeInTheDocument();
+      });
     });
   });
 });
