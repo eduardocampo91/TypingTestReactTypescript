@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import calcTypingAccuracy from "../../../../components/typeTrialInput/utils/calculateTypingAccuracy";
+import calcTypingAccuracy from "../../../../features/typeTrialInput/utils/calculateTypingAccuracy";
 
 describe("calculateTypingAccuracy tests", () => {
   it("should calculate the value given the parameters", () => {

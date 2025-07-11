@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import calcWordsPerMinute from "../../../../components/typeTrialInput/utils/calcWordsPerMinute";
+import calcWordsPerMinute from "../../../../features/typeTrialInput/utils/calcWordsPerMinute";
 
 describe("calcWordsPerMinute tests", () => {
   it("should calculate the value given the parameters", () => {

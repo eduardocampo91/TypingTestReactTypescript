@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import calculateScore from "../../../../components/typeTrialInput/utils/calculateScore";
+import calculateScore from "../../../../features/typeTrialInput/utils/calculateScore";
 
 describe("calculateScore tests", () => {
   it("should calculate the value given the parameters", () => {

@@ -1,11 +1,12 @@
 import "@testing-library/jest-dom";
 import { act, renderHook } from "@testing-library/react";
-import useTypeTrial from "../../../../components/typeTrialInput/hooks/useTypeTrial";
 import { ChangeEvent } from "react";
+import useTypeTrial from "../../../../features/typeTrialInput/hooks/useTypeTrial";
+import { ScoresProvider } from "../../../../contexts/scoresContext";
 
 describe("useTypeTrial tests", () => {
   it("should have the correct default values", () => {
-    const { result } = renderHook(() => useTypeTrial());
+    const { result } = renderHook(() => useTypeTrial(), {wrapper: ScoresProvider,});
 
     expect(result.current.words).toEqual([
       "This",
@@ -22,7 +23,7 @@ describe("useTypeTrial tests", () => {
   });
 
   it("should start the test and update state when typing the correct word", () => {
-    const { result } = renderHook(() => useTypeTrial());
+    const { result } = renderHook(() => useTypeTrial(), {wrapper: ScoresProvider,});
 
     const mockEvent = {
       currentTarget: { value: "This" },
@@ -47,7 +48,7 @@ describe("useTypeTrial tests", () => {
   });
 
   it("should update the accuracy when a wrong character is typed", () => {
-    const { result } = renderHook(() => useTypeTrial());
+    const { result } = renderHook(() => useTypeTrial(), {wrapper: ScoresProvider,});
 
     const words = ["This", "is", "the", "sentence", "to", "tyub"];
 
@@ -69,7 +70,7 @@ describe("useTypeTrial tests", () => {
   });
 
   it("should update acurracy with every character typed", () => {
-    const { result } = renderHook(() => useTypeTrial());
+    const { result } = renderHook(() => useTypeTrial(), {wrapper: ScoresProvider,});
 
     const words = ["This", "is", "the", "sentence", "to", "type"];
 
@@ -86,7 +87,7 @@ describe("useTypeTrial tests", () => {
   });
 
   it("should not update correctCount and should not remove a word if is not the correct word", () => {
-    const { result } = renderHook(() => useTypeTrial());
+    const { result } = renderHook(() => useTypeTrial(), {wrapper: ScoresProvider,});
 
     const mockEvent = {
       currentTarget: { value: "That" },
@@ -109,7 +110,7 @@ describe("useTypeTrial tests", () => {
   });
 
   it("should update wordsPerMinutes result, remove all the words from the sentence to type and finish the test when whole the sentece is being correctly typed", () => {
-    const { result } = renderHook(() => useTypeTrial());
+    const { result } = renderHook(() => useTypeTrial(), {wrapper: ScoresProvider,});
 
     const words = ["This", "is", "the", "sentence", "to", "type"];
 
@@ -133,19 +134,19 @@ describe("useTypeTrial tests", () => {
 
   it("should call calculateScore and set the final score when test finishes", () => {
     jest.mock(
-      "../../../../components/typeTrialInput/utils/calcWordsPerMinute",
+      "../../../../features/typeTrialInput/utils/calcWordsPerMinute",
       () => jest.fn(() => 60)
     );
     jest.mock(
-      "../../../../components/typeTrialInput/utils/calculateTypingAccuracy",
+      "../../../../features/typeTrialInput/utils/calculateTypingAccuracy",
       () => jest.fn((correct, total) => (total ? (correct / total) * 100 : 100))
     );
-     jest.mock(
-       "../../../../components/typeTrialInput/utils/calculateScore",
-       () => jest.fn(() => 100)
-     );
+    jest.mock(
+      "../../../../features/typeTrialInput/utils/calculateScore",
+      () => jest.fn(() => 100)
+    );
 
-    const { result } = renderHook(() => useTypeTrial());
+    const { result } = renderHook(() => useTypeTrial(), {wrapper: ScoresProvider,});
 
     const words = ["This", "is", "the", "sentence", "to", "type"];
 

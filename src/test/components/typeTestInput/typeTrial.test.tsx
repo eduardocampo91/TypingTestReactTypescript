@@ -5,10 +5,10 @@ import {
   RenderResult,
   screen,
 } from "@testing-library/react";
-import TypeTrial from "../../../components/typeTrialInput/typeTrial";
-import useTypeTrial from "../../../components/typeTrialInput/hooks/useTypeTrial";
+import useTypeTrial from "../../../features/typeTrialInput/hooks/useTypeTrial";
+import TypeTrial from "../../../features/typeTrialInput/typeTrial";
 
-jest.mock("../../../components/typeTrialInput/hooks/useTypeTrial");
+jest.mock("../../../features/typeTrialInput/hooks/useTypeTrial");
 
 describe("TypeTrial tests", () => {
   let component: RenderResult;
@@ -44,7 +44,8 @@ describe("TypeTrial tests", () => {
 
       const headingText = "Test Your Typing Speed, Scrub!";
       const heading = screen.queryByText(headingText);
-      const secondHeadingText = "You typed 10 words at 10 WPM. With a 100% of accuracy!!";
+      const secondHeadingText =
+        "You typed 10 words at 10 WPM. With a 100% of accuracy!!";
       const secondHeading = screen.queryByText(secondHeadingText);
 
       expect(heading).not.toBeInTheDocument();
@@ -223,7 +224,8 @@ describe("TypeTrial tests", () => {
       it("should show results and accuracy in screen after entering the complete and correct sentence", () => {
         component = render(<TypeTrial />);
 
-        const finalResults = "You typed 6 words at 60 WPM. With a 80% of accuracy!!";
+        const finalResults =
+          "You typed 6 words at 60 WPM. With a 80% of accuracy!!";
         const scoreHeading = screen.queryByText(finalResults);
         expect(scoreHeading).toBeInTheDocument();
       });

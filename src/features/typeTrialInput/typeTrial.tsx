@@ -1,4 +1,4 @@
-import BasicButton from "../buttons/basicButton/basicButton";
+import BasicButton from "../../components/buttons/basicButton/basicButton";
 import useTypeTrial from "./hooks/useTypeTrial";
 import "../../styles/typeTrial.css";
 
@@ -36,7 +36,7 @@ const TypeTrial = () => {
           ? `You typed ${correctCount} words at ${wordsPerMinute} WPM. With a ${trialAccuracy}% of accuracy!!`
           : "Test Your Typing Speed, Scrub!"}
       </h1>
-      {finalScore ? (<h2>{`Your final score is ${finalScore}!!!!`}</h2>) : null}
+      {finalScore ? <h2>{`Your final score is ${finalScore}!!!!`}</h2> : null}
       <h3>
         {isTestFinsh ? `Refresh to retake the test!` : `Type the following:`}
       </h3>
@@ -56,7 +56,10 @@ const TypeTrial = () => {
           {currentWord.split("").map((char, idx) => {
             const isNext = idx === enteredText.trim().length;
             return (
-              <span key={idx} className={isNext &&  isCorrectText ? "underline-next" : ""}>
+              <span
+                key={idx}
+                className={isNext && isCorrectText ? "underline-next" : ""}
+              >
                 {char}
               </span>
             );

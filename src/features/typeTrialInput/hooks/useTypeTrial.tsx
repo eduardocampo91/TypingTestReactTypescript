@@ -2,6 +2,7 @@ import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import calcWordsPerMinute from "../utils/calcWordsPerMinute";
 import calcTypingAccuracy from "../utils/calculateTypingAccuracy";
 import calculateScore from "../utils/calculateScore";
+import { useScoreContext } from "../../../contexts/scoresContext";
 
 export interface TypedResults {
   words: string[];
@@ -32,6 +33,7 @@ const useTypeTrial = (): TypedResults => {
   const [trialAccuracy, settrialAccuracy] = useState(0);
 
   const prevTypedLength = useRef(0);
+  const { addScore } = useScoreContext();
 
   const onWordChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const typedTextCurr = e.currentTarget.value;
@@ -104,6 +106,12 @@ const useTypeTrial = (): TypedResults => {
         setFinalScore(calculated);
         setWordsPerMinute(wpm);
         setStarted(false);
+        addScore({
+          totalScore: calculated,
+          wpm: wpm,
+          accuracy: accuracy,
+          words: correctCount,
+        });
       }
     }
   }, [
@@ -126,6 +134,11 @@ const useTypeTrial = (): TypedResults => {
     const newAccuracy = calcTypingAccuracy(charCorrectCount, totalCharacters);
     settrialAccuracy(newAccuracy);
   }, [charCorrectCount, totalCharacters]);
+
+  useEffect(() => {
+  console.log("Current Scores:", finalScore);
+}, [finalScore]);
+
 
   const isTestFinsh: boolean = words.length === 0;
 

@@ -1,12 +1,17 @@
 import React from "react";
 import "./App.css";
-import TypeTrial from "./components/typeTrialInput/typeTrial";
+import TypeTrial from "./features/typeTrialInput/typeTrial";
+import DisplayScores from "./features/displayScores/displayScores";
+import { ScoresProvider } from "./contexts/scoresContext";
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <TypeTrial/>
-    </div>
+    <ScoresProvider>
+      <div className="App">
+        <TypeTrial />
+        <DisplayScores />
+      </div>
+    </ScoresProvider>
   );
 };
 
