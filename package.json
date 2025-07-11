@@ -2,6 +2,7 @@
   "name": "linctype",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://eduardocampo91.github.io/TypingTestReactTypescript",
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/plugin-transform-private-property-in-object": "^7.24.7",
@@ -23,7 +24,9 @@
     "json-server": "json-server --watch db.json",
     "build": "react-scripts build",
     "test": "jest",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "eslintConfig": {
     "extends": [
@@ -47,6 +50,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.6.1",
+    "gh-pages": "^6.3.0",
     "jest": "^29.3.1",
     "jest-environment-jsdom": "^29.3.1",
     "json-server": "^1.0.0-beta.3"
