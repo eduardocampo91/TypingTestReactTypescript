@@ -4,6 +4,12 @@ import calcHighestScore from "./utils/calculateHighestScore";
 
 const DisplayScores = () => {
   const { scores } = useScoreContext();
+  const validScores = scores.filter((s) => s.totalScore > 0);
+
+  if (validScores.length === 0) {
+    return null;
+  }
+
   const gridOptions = [
     { field: "words", headerName: "Words Typed" },
     { field: "wpm", headerName: "WPM" },
@@ -16,7 +22,7 @@ const DisplayScores = () => {
       <h3 style={{ marginBottom: "1rem" }}>
         🏆 Highest Score: <strong>{calcHighestScore(scores)}</strong>
       </h3>
-      <BasicGrid colDefs={gridOptions} rowData={scores} />
+      <BasicGrid colDefs={gridOptions} rowData={validScores} />
     </div>
   );
 };

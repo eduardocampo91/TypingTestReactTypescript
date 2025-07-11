@@ -3,6 +3,7 @@ import calcWordsPerMinute from "../utils/calcWordsPerMinute";
 import calcTypingAccuracy from "../utils/calculateTypingAccuracy";
 import calculateScore from "../utils/calculateScore";
 import { useScoreContext } from "../../../contexts/scoresContext";
+import { fetchSentences } from "../../../services/sentencesApi";
 
 export interface TypedResults {
   words: string[];
@@ -18,8 +19,8 @@ export interface TypedResults {
 }
 
 const useTypeTrial = (): TypedResults => {
-  const [typeTest] = useState("This is the sentence to type");
-  const [words, setWords] = useState(typeTest.split(" "));
+  const [typeTest, setTypeTest] = useState("Loading test...");
+  const [words, setWords] = useState<string[]>([]);
   const [enteredText, setEnteredText] = useState("");
   const [correctCount, setCorrectCount] = useState(0);
   const [started, setStarted] = useState(false);
@@ -126,6 +127,25 @@ const useTypeTrial = (): TypedResults => {
   ]);
 
   useEffect(() => {
+    const loadWords = async () => {
+      try {
+        const sentence = await fetchSentences();
+        setTypeTest(sentence);
+        setWords(sentence.split(" "));
+      } catch (error) {
+        console.error(
+          "Failed to fetch sentence from API. Using fallback.",
+          error
+        );
+        const fallbackSentence = "This is the sentence to type";
+        setTypeTest(fallbackSentence);
+        setWords(fallbackSentence.split(" "));
+      }
+    };
+    loadWords();
+  }, []);
+
+  useEffect(() => {
     if (words.length !== 0) return;
     checkFinished();
   }, [words, checkFinished]);
@@ -142,8 +162,17 @@ const useTypeTrial = (): TypedResults => {
 
   const isTestFinsh: boolean = words.length === 0;
 
-  const resetTrial = () => {
-    setWords(typeTest.split(" "));
+  const resetTrial = async () => {
+  try {
+    const sentence = await fetchSentences();
+    setTypeTest(sentence);
+    setWords(sentence.split(" "));
+  } catch (error) {
+    console.error("Failed to fetch sentence during reset. Using fallback.", error);
+    const fallbackSentence = "This is the sentence to type";
+    setTypeTest(fallbackSentence);
+    setWords(fallbackSentence.split(" "));
+  }
     setEnteredText("");
     setCorrectCount(0);
     setWordsPerMinute(0);

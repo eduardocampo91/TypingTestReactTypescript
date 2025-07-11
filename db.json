@@ -1,40 +1,14 @@
 {
-  "leaderboard": [
-    {
-      "id": 1,
-      "username": "Charity",
-      "score": 505.1667,
-      "accuracy": 1.0,
-      "firstStrikeAccuracy": 1.0,
-      "wpm": 121.24,
-      "words": 25
-    },
-    {
-      "id": 2,
-      "username": "Kim",
-      "score": 919.0662,
-      "accuracy": 0.98,
-      "firstStrikeAccuracy": 0.89,
-      "wpm": 56.45,
-      "words": 112
-    },
-    {
-      "id": 3,
-      "username": "Scott",
-      "score": 1041.6963,
-      "accuracy": 0.99,
-      "firstStrikeAccuracy": 0.82,
-      "wpm": 62.09,
-      "words": 124
-    },
-    {
-      "id": 4,
-      "username": "Ismael",
-      "score": 700.9806,
-      "accuracy": 0.97,
-      "firstStrikeAccuracy": 0.88,
-      "wpm": 49.77,
-      "words": 99
-    }
+  "wordsets": [
+    { "id": 1, "text": "The five boxing wizards jump quickly" },
+    { "id": 2, "text": "The quick brown fox jumps over the lazy dog" },
+    { "id": 3, "text": "Jackdaws love my big sphinx of quartz" },
+    { "id": 4, "text": "Pack my box with five dozen liquor jugs" },
+    { "id": 5, "text": "To be or not to be that is the question" },
+    { "id": 6, "text": "The only way to do great work is to love what you do" },
+    { "id": 7, "text": "Life is what happens when you're busy making other plans" },
+    { "id": 8, "text": "The only limit to our realization of tomorrow will be our doubts of today" },
+    { "id": 9, "text": "A journey of a thousand miles begins with a single step" },
+    { "id": 10, "text": "Just stay one day ahead of yesterday" }
   ]
 }

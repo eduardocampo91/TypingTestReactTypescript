@@ -32,7 +32,7 @@ const TypeTrial = () => {
   return (
     <div className="App">
       <h1>
-        {wordsPerMinute
+        {started
           ? `You typed ${correctCount} words at ${wordsPerMinute} WPM. With a ${trialAccuracy}% of accuracy!!`
           : "Test Your Typing Speed, Scrub!"}
       </h1>

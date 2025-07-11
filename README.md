@@ -26,3 +26,9 @@ Runs the JSON Server pseudo-db which can be found in the db.json file. JSON Serv
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+### `Aditional information`
+
+We are using a Mock DB with local json file. It was created to give the user more than one sentence to type during the trial. To use the db.json file run the script "json-server": "json-server --watch db.json", then start the app.
+
+The app will also work without connecting to the local DB, it will render the same sentence for the trial.
