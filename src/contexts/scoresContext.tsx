@@ -12,7 +12,7 @@ interface ScoresContextProps {
   addScore: (entry: Score) => void;
 }
 
-const ScoresContext = createContext<ScoresContextProps | undefined>(undefined);
+export const ScoresContext = createContext<ScoresContextProps | undefined>(undefined);
 
 export const useScoreContext = () => {
   const context = useContext(ScoresContext);
